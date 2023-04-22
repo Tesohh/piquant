@@ -12,7 +12,7 @@ type Document struct {
 	ID         string    `json:"id"`
 	Title      string    `json:"title"`
 	Body       string    `json:"body"`
-	Author     Author    `json:"author"`
+	AuthorID   string    `json:"authorid"`
 	LastEditAt time.Time `json:"lasteditat"`
 	CreatedAt  time.Time `json:"createdat"`
 }
