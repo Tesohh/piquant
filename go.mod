@@ -1,4 +1,4 @@
-module github.com/Tesohh/zesty-go-cms
+module github.com/Tesohh/piquant
 
 go 1.20
 
