@@ -3,13 +3,18 @@ package main
 import (
 	"errors"
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 func getAllDocuments(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, MockDocuments)
+	var documents []Document
+	result := db.Model(&Document{}).Find(&documents)
+	if result.Error != nil {
+		c.IndentedJSON(http.StatusNotFound, gin.H{"message": result.Error})
+		return
+	}
+	c.IndentedJSON(http.StatusOK, documents)
 }
 
 func newDocument(c *gin.Context) {
@@ -19,23 +24,17 @@ func newDocument(c *gin.Context) {
 	if err != nil {       // in case there is an error (if it's nil it means there is no error)
 		return // return error code made by BindJSON
 	}
-	if d.CreatedAt.IsZero() {
-		d.CreatedAt = time.Now()
-	}
-	if d.LastEditAt.IsZero() {
-		d.LastEditAt = time.Now()
-	}
-	MockDocuments = append(MockDocuments, d)
+	db.Model(&Document{}).Create(&d)
 	c.IndentedJSON(http.StatusCreated, d)
 }
 
 func getDocumentById(id string) (*Document, error) {
-	for i, d := range MockDocuments {
-		if d.ID == id {
-			return &MockDocuments[i], nil
-		}
+	var document Document
+	result := db.Model(&Document{}).First(&document, "id = ?", id)
+	if result.Error != nil {
+		return nil, errors.New("no document found")
 	}
-	return nil, errors.New("no document found")
+	return &document, nil
 }
 
 func getOneDocument(c *gin.Context) {
@@ -55,12 +54,10 @@ func editDocument(c *gin.Context) {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Document not found."})
 		return
 	}
-
 	jerr := c.BindJSON(&d)
 	if jerr != nil {
 		return
 	}
-	d.LastEditAt = time.Now()
-
+	db.Model(&Document{}).Where("id = ?", id).Updates(d)
 	c.IndentedJSON(http.StatusOK, d)
 }

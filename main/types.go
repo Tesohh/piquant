@@ -1,19 +1,19 @@
 package main
 
-import "time"
+import "gorm.io/gorm"
 
 type Author struct {
-	ID    string `json:"id"`
+	gorm.Model
+	// ID    string `json:"id"`
 	Name  string `json:"name"`
 	Email string `json:"email"`
 }
 
 type Document struct {
-	ID         string    `json:"id"`
-	Title      string    `json:"title"`
-	Body       string    `json:"body"`
-	AuthorID   string    `json:"authorid"`
-	Hidden     bool      `json:"hidden"`
-	LastEditAt time.Time `json:"lasteditat"`
-	CreatedAt  time.Time `json:"createdat"`
+	gorm.Model
+	// ID       string `json:"id"`
+	Title    string `json:"title"`
+	Body     string `json:"body"`
+	AuthorID string `json:"authorid"` // gorm:"embedded"
+	Hidden   bool   `json:"hidden"`
 }
