@@ -17,7 +17,6 @@ var db = func() *gorm.DB {
 
 func main() {
 	db.AutoMigrate(&Document{})
-	db.AutoMigrate(&Author{})
 
 	router := gin.Default()
 	defer router.Run("localhost:8080")
