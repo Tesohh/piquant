@@ -13,6 +13,7 @@ type Document struct {
 	Title      string    `json:"title"`
 	Body       string    `json:"body"`
 	AuthorID   string    `json:"authorid"`
+	Hidden     bool      `json:"hidden"`
 	LastEditAt time.Time `json:"lasteditat"`
 	CreatedAt  time.Time `json:"createdat"`
 }

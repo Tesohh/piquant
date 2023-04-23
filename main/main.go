@@ -11,4 +11,5 @@ func main() {
 	router.GET("/docs", getAllDocuments)
 	router.GET("/docs/:id", getOneDocument)
 	router.POST("/new", newDocument)
+	router.PATCH("/edit/:id", editDocument)
 }
