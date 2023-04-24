@@ -1,2 +1,5 @@
+.DS_STORE
 json
-main/docs.db
+**/piquant.db
+**/apikey.txt
+**/__debug_bin
